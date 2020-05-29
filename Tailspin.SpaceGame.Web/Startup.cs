@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TailSpin.SpaceGame.Web.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TailSpin.SpaceGame.Web
 {
