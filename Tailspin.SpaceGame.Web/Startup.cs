@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using TailSpin.SpaceGame.Web.Models;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace TailSpin.SpaceGame.Web
 {
@@ -24,6 +24,7 @@ namespace TailSpin.SpaceGame.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -33,6 +34,8 @@ namespace TailSpin.SpaceGame.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddMvc().SetCompatibilityVersion(version: CompatibilityVersion.Version_2_1);
 
             // Add document stores. These are passed to the HomeController constructor.
             services.AddSingleton<IDocumentDBRepository<Score>>(new LocalDocumentDBRepository<Score>(@"SampleData/scores.json"));
@@ -54,9 +57,8 @@ namespace TailSpin.SpaceGame.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
